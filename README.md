@@ -49,6 +49,57 @@ install:
  
 Then we also need to install [vagrant-libvirt](https://github.com/vagrant-libvirt/vagrant-libvirt) on TravisCI.
 
+## prevent errors like The home directory you specified is not accessible
+
+You may experience some strange errors like `The home directory you specified is not accessible`:
+
+```
+$ vagrant up --provider=libvirt
+
+Vagrant failed to initialize at a very early stage:
+
+The home directory you specified is not accessible. The home
+
+directory that Vagrant uses must be both readable and writable.
+
+You specified: /home/travis/.vagrant.d
+
+The command "vagrant up --provider=libvirt" exited with 1.
+```
+
+or `Permission denied @ rb_sysopen - /home/travis/.vagrant.d/data/machine-index/index.lock (Errno::EACCES)`:
+
+```
+$ vagrant up --provider=libvirt
+
+/opt/vagrant/embedded/gems/2.2.7/gems/vagrant-2.2.7/lib/vagrant/machine_index.rb:321:in `initialize': Permission denied @ rb_sysopen - /home/travis/.vagrant.d/data/machine-index/index.lock (Errno::EACCES)
+
+	from /opt/vagrant/embedded/gems/2.2.7/gems/vagrant-2.2.7/lib/vagrant/machine_index.rb:321:in `open'
+
+	from /opt/vagrant/embedded/gems/2.2.7/gems/vagrant-2.2.7/lib/vagrant/machine_index.rb:321:in `with_index_lock'
+
+	from /opt/vagrant/embedded/gems/2.2.7/gems/vagrant-2.2.7/lib/vagrant/machine_index.rb:52:in `initialize'
+
+	from /opt/vagrant/embedded/gems/2.2.7/gems/vagrant-2.2.7/lib/vagrant/environment.rb:723:in `new'
+
+	from /opt/vagrant/embedded/gems/2.2.7/gems/vagrant-2.2.7/lib/vagrant/environment.rb:723:in `machine_index'
+
+	from /opt/vagrant/embedded/gems/2.2.7/gems/vagrant-2.2.7/lib/vagrant/environment.rb:206:in `block in action_runner'
+
+	from /opt/vagrant/embedded/gems/2.2.7/gems/vagrant-2.2.7/lib/vagrant/action/runner.rb:34:in `run'
+
+	from /opt/vagrant/embedded/gems/2.2.7/gems/vagrant-2.2.7/lib/vagrant/environment.rb:525:in `hook'
+
+	from /opt/vagrant/embedded/gems/2.2.7/gems/vagrant-2.2.7/lib/vagrant/environment.rb:774:in `unload'
+
+	from /opt/vagrant/embedded/gems/2.2.7/gems/vagrant-2.2.7/bin/vagrant:185:in `ensure in <main>'
+
+	from /opt/vagrant/embedded/gems/2.2.7/gems/vagrant-2.2.7/bin/vagrant:185:in `<main>'
+
+The command "vagrant up --provider=libvirt" exited with 1.
+```
+
+The simplest solution here is to always use `sudo` prefixing our `vagrant` commands (although [this stackoverflow answer](https://stackoverflow.com/a/29438084/4964553) tells us not to do so).
 
 ## Finally testdrive the Vagrant installation
 
@@ -56,6 +107,16 @@ Now we should be able to add a `vagrant up` to the `script` section to our [.tra
 
 ```yaml
 script:
-- vagrant up --provider=libvirt
-- vagrant ssh -c "echo 'hello world!'"
+- sudo vagrant up --provider=libvirt
+- sudo vagrant ssh -c "echo 'hello world!'"
+```
+
+## polishing: cache vagrant boxes
+
+To speed up our future builds, we should try to cache the big Vagrant boxes throughout our builds. [The Travis docs state](https://docs.travis-ci.com/user/caching/#arbitrary-directories), that we only need to add the following to our [.travis.yml](.travis.yml):
+
+```yaml
+cache:
+  directories:
+  - .vagrant.d/boxes
 ```
