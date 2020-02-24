@@ -1,0 +1,12 @@
+@startuml
+
+node Local {
+    node Vagrant
+    node VirtualBox
+    actor user
+
+    user -> Vagrant
+    Vagrant -> VirtualBox
+}
+
+@enduml

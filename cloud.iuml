@@ -1,0 +1,16 @@
+@startuml
+
+cloud Cloud {
+    node TravisCI
+    node Vagrant
+    node vagrantlibvrt
+    node libvrt
+    node KVM
+
+    TravisCI -> Vagrant
+    Vagrant -> vagrantlibvrt
+    vagrantlibvrt -> libvrt
+    libvrt -> KVM
+}
+
+@enduml
