@@ -5,7 +5,7 @@ language: python
 # Cache the big Vagrant boxes
 cache:
   directories:
-  - .vagrant.d/boxes
+  - /home/travis/.vagrant.d/boxes
 
 install:
 # Install libvrt & KVM (see https://github.com/alvistack/ansible-role-virtualbox/blob/master/.travis.yml)

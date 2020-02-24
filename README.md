@@ -118,5 +118,7 @@ To speed up our future builds, we should try to cache the big Vagrant boxes thro
 ```yaml
 cache:
   directories:
-  - .vagrant.d/boxes
+  - /home/travis/.vagrant.d/boxes
 ```
+
+Don't simple use `.vagrant.d/boxes` here, since Vagrant will place it's boxes inside `/home/travis/.vagrant.d/boxes` - and not inside `$TRAVIS_BUILD_DIR/.vagrant.d/boxes` which expands to `/home/travis/build/jonashackt/vagrant-travisci/.vagrant.d/boxes`.
