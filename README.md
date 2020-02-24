@@ -1,6 +1,6 @@
-# vagrant-travisci
+# vagrant-travisci-libvrt
 
-[![Build Status](https://travis-ci.org/jonashackt/vagrant-travisci.svg?branch=master)](https://travis-ci.org/jonashackt/vagrant-travisci)
+[![Build Status](https://travis-ci.org/jonashackt/vagrant-travisci-libvrt.svg?branch=master)](https://travis-ci.org/jonashackt/vagrant-travisci-libvrt)
 
 Example project showing how to run Vagrant on TravisCI 
 
@@ -17,10 +17,10 @@ But then I came upon these GitHub issues in my beloved Molecule project: https:/
 
 Did you know [libvirt](https://libvirt.org/)??! I didn't, this thing is a crazy thing - [an API for all those virtualization providers out there](https://help.ubuntu.com/lts/serverguide/libvirt.html) (sounds like Vagrant, huh?!). And as the GitHub Issue comments state, it should be possible to use Vagrant with libvrt & KVM on TravisCI... Which would give us the following workflow for our tools:
 
-![cloud-uml](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/jonashackt/vagrant-travisci/master/cloud.iuml)
-![local-uml](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/jonashackt/vagrant-travisci/master/local.iuml)
+![cloud-uml](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/jonashackt/vagrant-travisci-libvrt/master/cloud.iuml)
+![local-uml](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/jonashackt/vagrant-travisci-libvrt/master/local.iuml)
 
-- __ONLY IF__ there are Vagrant Boxes that support both `libvrt` & `virtualbox` as a provider. And... there are! Just have a look at the `generic` boxes on the Vagrant Cloud: https://app.vagrantup.com/boxes/search?provider=libvirt&q=ubuntu+bionic&sort=downloads&utf8=%E2%9C%93, which are backed by https://roboxes.org
+__ONLY IF__ there are Vagrant Boxes that support both `libvrt` & `virtualbox` as a provider. And... there are! Just have a look at the `generic` boxes on the Vagrant Cloud: https://app.vagrantup.com/boxes/search?provider=libvirt&q=ubuntu+bionic&sort=downloads&utf8=%E2%9C%93, which are backed by https://roboxes.org
 
 This would fulfil our request: in both cases a simple `vagrant up` based on the same [Vagrantfile](Vagrantfile) would work.
 
