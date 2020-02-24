@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jonashackt/vagrant-travisci-libvrt.svg?branch=master)](https://travis-ci.org/jonashackt/vagrant-travisci-libvrt)
 
-Example project showing how to run Vagrant on TravisCI 
+Example project showing how to run Vagrant on TravisCI using libvrt & KVM
 
 
 ## Why Vagrant on a CI system?
