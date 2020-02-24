@@ -6,10 +6,6 @@ install:
 # Install libvrt & KVM (see https://github.com/alvistack/ansible-role-virtualbox/blob/master/.travis.yml)
 - sudo apt-get update && sudo apt-get install -y bridge-utils dnsmasq-base ebtables libvirt-bin libvirt-dev qemu-kvm qemu-utils ruby-dev
 
-# Create Vagrant home directory on Travis
-- sudo mkdir /home/travis/.vagrant.d
-- sudo chown -R travis /home/travis/.vagrant.d
-
 # Download Vagrant & Install Vagrant package
 - sudo wget -nv https://releases.hashicorp.com/vagrant/2.2.7/vagrant_2.2.7_x86_64.deb
 - sudo dpkg -i vagrant_2.2.7_x86_64.deb
@@ -21,5 +17,5 @@ install:
 - sudo vagrant plugin install vagrant-libvirt
 
 script:
-- vagrant up --provider=libvirt
-- vagrant ssh -c "echo 'hello world!'"
+- sudo vagrant up --provider=libvirt
+- sudo vagrant ssh -c "echo 'hello world!'"
