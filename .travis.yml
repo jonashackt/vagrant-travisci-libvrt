@@ -17,5 +17,5 @@ install:
 - sudo vagrant plugin install vagrant-libvirt
 
 script:
-- vagrant up
+- vagrant up --provider=libvirt
 - vagrant ssh -c "echo 'hello world!'"

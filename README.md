@@ -52,10 +52,10 @@ Then we also need to install [vagrant-libvirt](https://github.com/vagrant-libvir
 
 ## Finally testdrive the Vagrant installation
 
-Add the following `script` section to our [.travis.yml](.travis.yml):
+Now we should be able to add a `vagrant up` to the `script` section to our [.travis.yml](.travis.yml). __But be sure__ to add the ` --provider=libvirt` to the command! Otherwise Vagrant won't pick up `libvrt` as it's virtualization provider ([as stated in the docs](https://github.com/vagrant-libvirt/vagrant-libvirt#start-vm9)):
 
 ```yaml
 script:
-- vagrant up
+- vagrant up --provider=libvirt
 - vagrant ssh -c "echo 'hello world!'"
 ```
