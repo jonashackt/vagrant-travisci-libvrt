@@ -22,6 +22,8 @@ Did you know [libvirt](https://libvirt.org/)??! I didn't, this thing is a crazy 
 ![cloud-uml](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/jonashackt/vagrant-travisci-libvrt/master/cloud.iuml)
 ![local-uml](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/jonashackt/vagrant-travisci-libvrt/master/local.iuml)
 
+We also need an Vagrant-extension for libvirt, which is luckily already available: [the Vagrant libvirt Plugin](https://github.com/vagrant-libvirt/vagrant-libvirt)
+
 __ONLY IF__ there are Vagrant Boxes that support both `libvrt` & `virtualbox` as a provider. And... there are! Just have a look at the `generic` boxes on the Vagrant Cloud: https://app.vagrantup.com/boxes/search?provider=libvirt&q=ubuntu+bionic&sort=downloads&utf8=%E2%9C%93, which are backed by https://roboxes.org
 
 This would fulfil our request: in both cases a simple `vagrant up` based on the same [Vagrantfile](Vagrantfile) would work.
