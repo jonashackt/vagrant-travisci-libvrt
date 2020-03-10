@@ -178,9 +178,10 @@ Error while creating domain: Error saving the server: Call to virDomainDefineXML
 The command "sudo vagrant up --provider=libvirt" exited with 1.
 ``` 
 
-To prevent this, we need to disable the synced folders in the [Vagrantfile](Vagrantfile):
+To prevent this, we need to use at least Ubuntu `bionic` as our Travis build system. Therefore we should configure it inside our [.travis.yml](.travis.yml):
 
-```
-    # Prevent SharedFoldersEnableSymlinksCreate errors
-    config.vm.synced_folder ".", "/vagrant", disabled: true
+```yaml
+---
+dist: bionic
+...
 ```
