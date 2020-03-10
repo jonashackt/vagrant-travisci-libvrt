@@ -126,3 +126,61 @@ cache:
 ```
 
 Don't simple use `.vagrant.d/boxes` here, since Vagrant will place it's boxes inside `/home/travis/.vagrant.d/boxes` - and not inside `$TRAVIS_BUILD_DIR/.vagrant.d/boxes` which expands to `/home/travis/build/jonashackt/vagrant-travisci/.vagrant.d/boxes`.
+
+
+## prevent Error while creating domain: Error saving the server: Call to virDomainDefineXML failed: invalid argument: could not find capabilities for domaintype=kvm
+
+If we don't have a look into our [Vagrantfile](Vagrantfile) beforehand, we may run into the following error:
+
+```
+$ sudo vagrant up --provider=libvirt
+
+Bringing machine 'ubuntu' up with 'libvirt' provider...
+==> ubuntu: Box 'generic/ubuntu1804' could not be found. Attempting to find and install...
+    ubuntu: Box Provider: libvirt
+    ubuntu: Box Version: >= 0
+==> ubuntu: Loading metadata for box 'generic/ubuntu1804'
+    ubuntu: URL: https://vagrantcloud.com/generic/ubuntu1804
+==> ubuntu: Adding box 'generic/ubuntu1804' (v2.0.6) for provider: libvirt
+    ubuntu: Downloading: https://vagrantcloud.com/generic/boxes/ubuntu1804/versions/2.0.6/providers/libvirt.box
+    ubuntu: Download redirected to host: vagrantcloud-files-production.s3.amazonaws.com
+==> ubuntu: Successfully added box 'generic/ubuntu1804' (v2.0.6) for 'libvirt'!
+==> ubuntu: Uploading base box image as volume into libvirt storage...
+==> ubuntu: Creating image (snapshot of base box volume).
+==> ubuntu: Creating domain with the following settings...
+==> ubuntu:  -- Name:              molecule-ansible-docker-aws_ubuntu
+==> ubuntu:  -- Domain type:       kvm
+==> ubuntu:  -- Cpus:              2
+==> ubuntu:  -- Feature:           acpi
+==> ubuntu:  -- Feature:           apic
+==> ubuntu:  -- Feature:           pae
+==> ubuntu:  -- Memory:            2048M
+==> ubuntu:  -- Management MAC:    
+==> ubuntu:  -- Loader:            
+==> ubuntu:  -- Nvram:             
+==> ubuntu:  -- Base box:          generic/ubuntu1804
+==> ubuntu:  -- Storage pool:      default
+==> ubuntu:  -- Image:             /var/lib/libvirt/images/molecule-ansible-docker-aws_ubuntu.img (32G)
+==> ubuntu:  -- Volume Cache:      default
+==> ubuntu:  -- Kernel:            
+==> ubuntu:  -- Initrd:            
+==> ubuntu:  -- Graphics Type:     vnc
+==> ubuntu:  -- Graphics Port:     -1
+==> ubuntu:  -- Graphics IP:       127.0.0.1
+==> ubuntu:  -- Graphics Password: Not defined
+==> ubuntu:  -- Video Type:        cirrus
+==> ubuntu:  -- Video VRAM:        256
+==> ubuntu:  -- Sound Type:	
+==> ubuntu:  -- Keymap:            en-us
+==> ubuntu:  -- TPM Path:          
+==> ubuntu:  -- INPUT:             type=mouse, bus=ps2
+Error while creating domain: Error saving the server: Call to virDomainDefineXML failed: invalid argument: could not find capabilities for domaintype=kvm 
+The command "sudo vagrant up --provider=libvirt" exited with 1.
+``` 
+
+To prevent this, we need to disable the synced folders in the [Vagrantfile](Vagrantfile):
+
+```
+    # Prevent SharedFoldersEnableSymlinksCreate errors
+    config.vm.synced_folder ".", "/vagrant", disabled: true
+```
