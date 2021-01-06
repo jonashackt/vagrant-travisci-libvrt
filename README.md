@@ -1,6 +1,6 @@
 # vagrant-travisci-libvrt
 
-[![Build Status](https://travis-ci.org/jonashackt/vagrant-travisci-libvrt.svg?branch=master)](https://travis-ci.org/jonashackt/vagrant-travisci-libvrt)
+[![Build Status](https://www.travis-ci.com/jonashackt/vagrant-travisci-libvrt.svg?branch=master)](https://www.travis-ci.com/jonashackt/vagrant-travisci-libvrt)
 
 Example project showing how to run Vagrant on TravisCI using libvrt & KVM
 
