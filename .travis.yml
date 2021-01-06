@@ -11,16 +11,22 @@ install:
 # Install libvrt & KVM (see https://github.com/alvistack/ansible-role-virtualbox/blob/master/.travis.yml)
 - sudo apt-get update && sudo apt-get install -y bridge-utils dnsmasq-base ebtables libvirt-bin libvirt-dev qemu-kvm qemu-utils ruby-dev
 
+# Out of the box, libvirt is configured so that users have to be added to the libvirt group in order to use it.
+# This is a very elegant design; unfortunately we can't seem to add the travis user to the libvirt group properly (newgrp halts, maybe waiting for console input?)
+# Instead, we change libvirt's configuration to consider the already-existing travis group the authorized group, then restart libvirt so it picks up the changes.
+- sudo sed -i 's/unix_sock_group = "libvirt"/unix_sock_group = "travis"/' /etc/libvirt/libvirtd.conf
+- sudo systemctl restart libvirtd.service
+
 # Download Vagrant & Install Vagrant package
-- sudo wget -nv https://releases.hashicorp.com/vagrant/2.2.14/vagrant_2.2.14_x86_64.deb
+- wget -nv https://releases.hashicorp.com/vagrant/2.2.14/vagrant_2.2.14_x86_64.deb
 - sudo dpkg -i vagrant_2.2.14_x86_64.deb
 
 # Vagrant correctly installed?
 - vagrant --version
 
 # Install vagrant-libvirt Vagrant plugin
-- sudo vagrant plugin install vagrant-libvirt
+- vagrant plugin install vagrant-libvirt
 
 script:
-- sudo vagrant up --provider=libvirt
-- sudo vagrant ssh -c "echo 'hello world!'"
+- vagrant up --provider=libvirt
+- vagrant ssh -c "echo 'hello world!'"
